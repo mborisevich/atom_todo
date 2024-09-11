@@ -64,6 +64,27 @@ div#side-bar {
 div#nav-panel {
     background-color: black;
 }
-div#side-panel {
-    background-color: blue;
+div#project-container{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: whitesmoke;
+}
+div.project {
+    flex: 1;
+    min-height: 300px;
+    min-width: 300px;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    padding: 20px;
+    margin: 40px;
+    border: 2px black solid;
+    background-color: white;
+    
+}
+div.project>h1 {
+    font-size: 2rem;
+    padding: 20px 0px;
+}
+p.project-title{
+    padding-bottom: 20px;
 }
