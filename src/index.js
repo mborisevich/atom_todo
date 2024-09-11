@@ -1,6 +1,7 @@
 console.log("Hell world")
 const defaultproject = []
 import { compareAsc, format } from "date-fns"
+import "./style.css"
 
 function saveProjects(){
     console.log("Saving projects")
