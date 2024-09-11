@@ -1,6 +1,13 @@
 console.log("Hell world")
 const defaultproject = []
+import { compareAsc, format } from "date-fns"
 
+function saveProjects(){
+    console.log("Saving projects")
+}
+function retrieveProjects(){
+    console.log("Retrieving projects")
+}
 class checklistItem {
     constructor(title, description){
         this.title = title,
@@ -20,9 +27,10 @@ class checklistItem {
 }
 
 class Todo extends checklistItem{
-    constructor(title, description, dueDate, priority, notes, itemlist = []){
+    constructor(title, description, dueDate, priority, notes = "", itemlist = []){
         super(title, description),
         this.dueDate = dueDate,
+        this.dateCreated = format(new Date(), 'yyyy-MM-dd'),
         this.priority = priority,
         this.notes = notes,
         this.itemlist = itemlist,
@@ -44,28 +52,14 @@ class Todo extends checklistItem{
         return this.itemlist
     }
 
-    setComplete(value){
-        if (this.complete == 0 && value == 1){
-            this.complete = value;
-        } else if (this.complete == 1 && value == 0){
-            this.complete = value;
-        }
-    }
-
 }; 
 class Project extends Todo {
     constructor(title, description, dueDate, priority, notes, itemlist){
         super(title, description, dueDate, priority, notes, itemlist),
-        this.complete = 0
+        this.complete = 0,
+        this.dateCreated = format(new Date(), 'yyyy-MM-dd')
     }
-
-    set setComplete(value){
-        if (value == 0 & this.value == 1){
-            this.value = value;
-        } else if (value == 1 && this.value == 0){
-            this.value = value
-        }
-    }
+    
     getInfo(){
         console.log(`The title of this is: ${this.title}, the description is ${this.description}, it is ${this.complete == 1 ? "complete" : "not complete"}`)
     }
@@ -73,22 +67,36 @@ class Project extends Todo {
     addTodoItem = super.addChecklistItem;
     removeTodoItem = super.removeChecklistItem;
 
-    //add function to add Todo items
 }
-const test_item = new checklistItem("Test item", "Hello world");
-const test_todo = new Todo("Test todo", "Hello world", "09-06-2040", 1, "Nice notes");
-const test_proj = new Project("Test project", "Hello this is a new project", "20-03-2060", 0, "Nice project")
-console.log(test_item);
-console.log(test_todo);
-test_item.getInfo();
-test_todo.getInfo();
-test_proj.getInfo();
-test_todo.addChecklistItem(test_item)
-test_proj.addTodoItem(test_todo);
-console.log(test_todo)
-console.log(test_proj)
-test_todo.countItems()
-test_proj.countItems()
 
+function mainProgram(){
+    let projectList = []
+    function createProject(title, description, dueDate, priority){
+        const newProject = new Project(title, description, dueDate, priority)
+        projectList.push(newProject);
+    }
+    function createTodo(title, description, dueDate, priority, project){
+        const newTodoItem = new Todo(title, description, dueDate, priority)
+        project.addTodoItem(newTodoItem)
+    }
+    function createTodoItem(title, description, todo){
+        const newItem = new checklistItem(title, description)
+        todo.addChecklistItem(newItem)
+    }
+    function listProjects(){
+        return projectList
+    }
+    function editItem(key, value, item){
+        if (item[`${key}`]){
+            item[key] = value
+        } else {
+            console.log("Object does not have this property.")
+        }
+
+    }
+    return { createProject, createTodo, createTodoItem, listProjects, editItem}
+}
+
+window.program = mainProgram()
 
 //Separate classes into certain functions
